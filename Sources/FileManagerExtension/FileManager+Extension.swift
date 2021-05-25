@@ -54,7 +54,7 @@ extension FileManager {
         }
     }
     
-    public func readJSON<T: Codable>(docName: String, completion: (Result<T, Error>) -> Void) {
+    public func readJSON<T: Codable>(_ type: T.Type, docName: String, completion: (Result<T, Error>) -> Void) {
         readDocument(docName: docName) { (result) in
             switch result {
             case .success(let data):
