@@ -61,7 +61,7 @@ extension FileManager {
                 let decoder = JSONDecoder()
                 do {
                     let decodedData = try decoder.decode(T.self, from: data)
-                    completion(.success(decoded.Data)
+                    completion(.success(decodedData))
                 } catch {
                     completion(.failure(error))
                 }
