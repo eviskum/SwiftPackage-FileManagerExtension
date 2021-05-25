@@ -29,10 +29,10 @@ extension FileManager {
         
         do {
             let data = try Data(contentsOf: url)
-            print("readDocument: File read successfully")
+//            print("readDocument: File read successfully")
             completion(.success(data))
         } catch {
-            print ("readDocument: Unable to read file")
+//            print ("readDocument: Unable to read file")
             completion(.failure(error))
         }
     }
@@ -42,8 +42,14 @@ extension FileManager {
         return fileExists(atPath: path)
     }
 
-    func deleteDocument() {
+    public func deleteDocument(docName: String, completion: (Error?) -> Void) {
+        let url = Self.docDirURL.appendingPathComponent(docName)
         
+        do {
+            try removeItem(at: url)
+        } catch {
+            completion(error)
+        }
     }
     
     public func saveJSON<T: Codable>(data: T, docName: String, completion: (Error?) -> Void) {
@@ -65,16 +71,20 @@ extension FileManager {
                 let decoder = JSONDecoder()
                 do {
                     let decodedData = try decoder.decode(T.self, from: data)
-                    print("readJSON: json decoded successfully")
+//                    print("readJSON: json decoded successfully")
                     completion(.success(decodedData))
                 } catch {
-                    print("readJSON: Unable to decode JSON")
+//                    print("readJSON: Unable to decode JSON")
                     completion(.failure(error))
                 }
             case .failure(let error):
-                print("readJSON: Unable to read document")
+//                print("readJSON: Unable to read document")
                 completion(.failure(error))
             }
         }
+    }
+    
+    public func printPath() {
+        print("Document path: \(Self.docDirURL.path)")
     }
 }
