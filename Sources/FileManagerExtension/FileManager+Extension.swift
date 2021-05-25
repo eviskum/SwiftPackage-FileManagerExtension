@@ -27,8 +27,10 @@ extension FileManager {
         
         do {
             let data = try Data(contentsOf: url)
+            print("readDocument: File read successfully")
             completion(.success(data))
         } catch {
+            print ("readDocument: Unable to read file")
             completion(.failure(error))
         }
     }
@@ -61,11 +63,14 @@ extension FileManager {
                 let decoder = JSONDecoder()
                 do {
                     let decodedData = try decoder.decode(T.self, from: data)
+                    print("readJSON: json decoded successfully")
                     completion(.success(decodedData))
                 } catch {
+                    print("readJSON: unable to decode JSON")
                     completion(.failure(error))
                 }
             case .failure(let error):
+                print("readJSON: unable to read document")
                 completion(.failure(error))
             }
         }
