@@ -22,7 +22,7 @@ extension FileManager {
         }
     }
     
-    func readDocument(docName: String, completion: (Result<Data, Error>) -> Void) {
+    public func readDocument(docName: String, completion: (Result<Data, Error>) -> Void) {
         let url = Self.docDirURL.appendingPathComponent(docName)
         
         do {
@@ -33,7 +33,7 @@ extension FileManager {
         }
     }
     
-    func docExists(named docName: String) -> Bool {
+    public func docExists(named docName: String) -> Bool {
         let path = Self.docDirURL.appendingPathComponent(docName).path
         return fileExists(atPath: path)
     }
@@ -42,7 +42,7 @@ extension FileManager {
         
     }
     
-    func saveJSON<T: Codable>(data: T, docName: String, completion: (Error?) -> Void) {
+    public func saveJSON<T: Codable>(data: T, docName: String, completion: (Error?) -> Void) {
         let encoder = JSONEncoder()
         
         do {
@@ -54,7 +54,7 @@ extension FileManager {
         }
     }
     
-    func readJSON<T: Codable>(docName: String, completion: (Result<T, Error>) -> Void) {
+    public func readJSON<T: Codable>(docName: String, completion: (Result<T, Error>) -> Void) {
         readDocument(docName: docName) { (result) in
             switch result {
             case .success(let data):
