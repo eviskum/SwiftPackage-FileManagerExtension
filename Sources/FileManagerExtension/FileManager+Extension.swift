@@ -25,6 +25,8 @@ extension FileManager {
     public func readDocument(docName: String, completion: (Result<Data, Error>) -> Void) {
         let url = Self.docDirURL.appendingPathComponent(docName)
         
+        print("readDocument: Reading data from \(url.path)")
+        
         do {
             let data = try Data(contentsOf: url)
             print("readDocument: File read successfully")
@@ -66,11 +68,11 @@ extension FileManager {
                     print("readJSON: json decoded successfully")
                     completion(.success(decodedData))
                 } catch {
-                    print("readJSON: unable to decode JSON")
+                    print("readJSON: Unable to decode JSON")
                     completion(.failure(error))
                 }
             case .failure(let error):
-                print("readJSON: unable to read document")
+                print("readJSON: Unable to read document")
                 completion(.failure(error))
             }
         }
