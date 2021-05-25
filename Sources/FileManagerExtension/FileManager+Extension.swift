@@ -11,7 +11,14 @@ extension FileManager {
     static var docDirURL: URL {
         return Self.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
+ 
     
+    /// FileManager extension to save a String to a file in the document directory
+    /// - Parameters:
+    ///   - contents: String to save
+    ///   - docName: File name to write to in the document directory
+    ///   - completion: Completions closure, called in case of error.
+    ///
     public func saveDocument(contents: String, docName: String, completion: (Error?) -> Void) {
         let url = Self.docDirURL.appendingPathComponent(docName)
         
@@ -22,6 +29,12 @@ extension FileManager {
         }
     }
     
+    
+    /// FileManager extension to read Data from a file in the document directory
+    /// - Parameters:
+    ///   - docName: File name to read from in the document directory
+    ///   - completion: Completion closure, called with with Data in case of success and Error in case of failure
+    ///
     public func readDocument(docName: String, completion: (Result<Data, Error>) -> Void) {
         let url = Self.docDirURL.appendingPathComponent(docName)
         
@@ -37,11 +50,23 @@ extension FileManager {
         }
     }
     
+    
+    /// FileManager extension to check if a file exists in the document directory
+    /// - Parameter docName: File name to check
+    /// - Returns: Return true if file exists, false if file does not exist
+    ///
     public func docExists(named docName: String) -> Bool {
         let path = Self.docDirURL.appendingPathComponent(docName).path
         return fileExists(atPath: path)
     }
 
+
+    
+    /// FileManager extension to delete a file in the document directory
+    /// - Parameters:
+    ///   - docName: File name to delete
+    ///   - completion: Completions closure, called in case of error.
+    ///
     public func deleteDocument(docName: String, completion: (Error?) -> Void) {
         let url = Self.docDirURL.appendingPathComponent(docName)
         
@@ -51,7 +76,14 @@ extension FileManager {
             completion(error)
         }
     }
+
     
+    /// FileManager extension to save Encodable JSON data to a file in the document directory
+    /// - Parameters:
+    ///   - data: Encodable data to save
+    ///   - docName: File name to write to in the document directory
+    ///   - completion: Completions closure, called in case of error.
+    ///
     public func saveJSON<T: Codable>(data: T, docName: String, completion: (Error?) -> Void) {
         let encoder = JSONEncoder()
         
@@ -63,7 +95,14 @@ extension FileManager {
             completion(error)
         }
     }
+
     
+    /// FileManager extension to read Decodable JSON data from a file in the document directory
+    /// - Parameters:
+    ///   - type: data Type
+    ///   - docName: File name to read from in the document directory
+    ///   - completion: Completion closure, called with with decoded Data in case of success and Error in case of failure
+    ///
     public func readJSON<T: Codable>(_ type: T.Type, docName: String, completion: (Result<T, Error>) -> Void) {
         readDocument(docName: docName) { (result) in
             switch result {
@@ -84,6 +123,9 @@ extension FileManager {
         }
     }
     
+    
+    /// FileManager extension to print document directory path. Mainly used for debugging in simulator.
+    ///
     public func printPath() {
         print("Document path: \(Self.docDirURL.path)")
     }
