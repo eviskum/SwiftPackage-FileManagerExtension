@@ -54,7 +54,7 @@ extension Bundle {
     }
 
 
-    public func readJSONsimple<T: Codable>(docName: String) -> T {
+    public func readJSONsimple<T: Codable>(_ docName: String) -> T {
         var decodedData: T? = nil
         
         readDocument(docName: docName) { (result) in
