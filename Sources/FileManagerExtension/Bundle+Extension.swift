@@ -52,4 +52,28 @@ extension Bundle {
             }
         }
     }
+
+
+    public func readJSONsimple<T: Codable>(docName: String) -> T {
+        var decodedData: T? = nil
+        
+        readDocument(docName: docName) { (result) in
+            switch result {
+            case .success(let data):
+                let decoder = JSONDecoder()
+                do {
+                    decodedData = try decoder.decode(T.self, from: data)
+                    print("readJSONsimple: json decoded successfully")
+                } catch {
+                    fatalError("readJSONsimple: Unable to decode JSON")
+                }
+            case .failure(_):
+                fatalError("readJSONsimple: Unable to read document from bundle")
+            }
+        }
+        
+        return decodedData!
+    }
+
+
 }
